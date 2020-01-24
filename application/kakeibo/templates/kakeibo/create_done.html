@@ -1,20 +1,22 @@
 {% extends 'kakeibo/layout.html' %}
 {% block content %}
+<div class="ui icon message">
+  <i class="checkmark icon"></i>
+  <i class="close icon"></i>
+  <div class="content">
+    <div class="header">
+      支出登録が正常終了しました。
+    </div>
+    <p>Expense registration has been completed successfully.</p>
+  </div>
+</div>
 
-  <div class="content-wrapper">
-    <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="{% url 'kakeibo:kakeibo_list' %}">TOP</a>
-        </li>
-        <li class="breadcrumb-item active">家計簿アプリ</li>
-      </ol>
-      <!-- Example DataTables Card-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-server"></i> <b>家計簿アプリ</b></div>
-        <div class="card-body">
-
-<div class="alert alert-info" role="alert">データ登録が正常終了しました。</div>
+<script>
+$('.message .close')
+  .on('click', function() {
+    $(this)
+      .closest('.message')
+      .transition('fade');
+});
+</script>
 {% endblock content %}

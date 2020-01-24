@@ -1,31 +1,25 @@
-<!-- 親テンプレートを読み込む-->
 {% extends 'kakeibo/layout.html' %}
 {% block content %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-
-<div class="content-wrapper">
-    <div class="container-fluid">
-        <!-- パンくずリストの設定-->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url 'kakeibo:kakeibo_list' %}">TOP</a>
-            </li>
-            <li class="breadcrumb-item active">カテゴリ毎の合計金額割合</li>
-        </ol>
-        <!--ページタイトル-->
-        <div class="card mb-3">
-            <div class="card-header">
-                <h3><b>家計簿アプリ（カテゴリ毎の合計金額割合）</b></h3>
-            </div>
-            <div class="card-body">
-                <!-- 円グラフの描画-->
-                <div class="chart_container">
-                    <canvas id='CircleChart' style="position: relative; height:1vh; width:1vw"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="chart_container">
+    <canvas id='CircleChart' style="position: relative; height:25vh; width:25vw"></canvas>
 </div>
+<hr>
+<table id=kakeibo_list width="100%" class="ui selectable celled striped table">
+    <thead>
+        <tr style="background-color:rgb(224, 228, 226)">
+            <th>カテゴリ</th>
+            <th>割合</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key, value in category_dict.items %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 <!-- キャンバスの定義-->
 <style>
@@ -54,18 +48,27 @@
                 ]]
 
     var myChart = new Chart(ctx, {
-      type: 'pie',
+        type: 'pie',
 
-      data: {
-        labels: data[0],
-        datasets: [{
-          data:  data[1],
-          backgroundColor: ["rgba(255,241,15,0.8)","rgba(54,164,235,0.8)",
-          "rgba(0,255,65,0.8)","rgba(214,216,165,0.8)","rgba(255,94,25,0.8)",
-          "rgba(84,77,203,0.8)","rgba(140,140,140,0.8)","rgba(171,255,127,0.8)",
-          "rgba(50,204,18,0.8)","rgba(234,210,173,0.8)"],
+        data: {
+            labels: data[0],
+            datasets: [{
+                data:  data[1],
+                backgroundColor: ["rgba(255,241,15,0.8)","rgba(54,164,235,0.8)",
+                    "rgba(0,255,65,0.8)","rgba(214,216,165,0.8)","rgba(255,94,25,0.8)",
+                    "rgba(84,77,203,0.8)","rgba(140,140,140,0.8)","rgba(171,255,127,0.8)",
+                    "rgba(50,204,18,0.8)","rgba(234,210,173,0.8)"],
+            },
+        ]},
+        options: {
+            title: {
+                display: true,
+                pocision: "top",
+                fontSize: 30,
+                fontColor: "black",
+                text: "カテゴリ毎の合計金額割合"
+            },
         },
-      ] }
     });
 </script>
 {% endblock content %}

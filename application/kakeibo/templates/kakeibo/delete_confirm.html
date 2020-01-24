@@ -1,28 +1,14 @@
 ﻿{% extends 'kakeibo/layout.html' %}
 {% block content %}
-<div class="content-wrapper">
-    <div class="container-fluid">
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url 'kakeibo:kakeibo_list' %}">TOP</a>
-            </li>
-            <li class="breadcrumb-item active">家計簿アプリ</li>
-        </ol>
-        <!-- Example DataTables Card-->
-        <div class="card mb-3">
-            <div class="card-header">
-                <h3>データ削除</h3>
-            </div>
-            <div class="card-body">
-                <p>{{ object }} のデータを削除していいですか?</p>
-
-                <form method="post">
-                    <button class="btn btn-danger">削除する</button>
-                    {% csrf_token %}
-                </form>
-            </div>
-        </div>
+<div class="ui large negative message">
+    <div class="ui header">
+        本当に削除しますか？
     </div>
+    <p></p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="ui red button">削除する</button>
+        <a href="{% url 'kakeibo:kakeibo_list' %}" class="ui button">戻る</a>
+    </form>
 </div>
 {% endblock %}

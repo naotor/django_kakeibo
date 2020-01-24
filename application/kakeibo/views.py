@@ -48,7 +48,7 @@ class KakeiboDeleteView(generic.DeleteView):
 
 
 def delete_done(request):
-    template_name = 'kakeibo/update_done.html'
+    template_name = 'kakeibo/delete_done.html'
     return render(request, template_name)
 
 

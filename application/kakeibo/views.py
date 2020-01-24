@@ -52,6 +52,13 @@ def delete_done(request):
     return render(request, template_name)
 
 
+class CategoryCreateView(generic.CreateView):
+    template_name = 'kakeibo/kakeibo_form.html'
+    model = Kakeibo
+    form_class = KakeiboForm
+    success_url = reverse_lazy('kakeibo:create_done')
+
+
 def show_circle_chart(request):
     template_name = 'kakeibo/show_circle_chart.html'
     category_dict = {}

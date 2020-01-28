@@ -1,0 +1,22 @@
+{% extends 'kakeibo/layout.html' %}
+{% block content %}
+<form class="ui expense form" action="" method="post">
+    {% csrf_token %}
+
+    <div class="field">
+        <label>{{ form.category_name.label }}</label>
+        <div class="ui fluid left icon input">
+            {{ form.category_name }}
+            <i class="pencil alternate icon"></i>
+        </div>
+    </div>
+
+    <div class="actions">
+        <a href="{% url 'kakeibo:kakeibo_list' %}" class="ui right floated button">戻る</a>
+        <button class="ui right floated primary button" type="submit">
+            <i class="checkmark icon"></i> 登録
+        </button>
+    </div>
+</form>
+
+{% endblock %}

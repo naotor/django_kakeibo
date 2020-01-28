@@ -1,20 +1,20 @@
+import calendar
+
 from django.views import generic
 from django.shortcuts import render
 from django.urls import reverse_lazy
-
-from .models import Category, Kakeibo
-from .forms import KakeiboForm
-
 from django.db.models import Sum
 
-import calendar
+from .models import Category, Kakeibo
+from .forms import CategoryForm, KakeiboForm
+
 
 class KakeiboListView(generic.ListView):
     template_name = 'kakeibo/kakeibo_list.html'
     model = Kakeibo
 
-    def queryset(self):
-        return Kakeibo.objects.all()
+    def get_queryset(self):
+        return Kakeibo.objects.order_by('-date')
 
 
 class KakeiboCreateView(generic.CreateView):
@@ -24,11 +24,6 @@ class KakeiboCreateView(generic.CreateView):
     success_url = reverse_lazy('kakeibo:create_done')
 
 
-def create_done(request):
-    template_name = 'kakeibo/create_done.html'
-    return render(request, template_name)
-
-
 class KakeiboUpdateView(generic.UpdateView):
     template_name = 'kakeibo/kakeibo_form.html'
     model = Kakeibo
@@ -36,27 +31,53 @@ class KakeiboUpdateView(generic.UpdateView):
     success_url = reverse_lazy('kakeibo:update_done')
 
 
+class KakeiboDeleteView(generic.DeleteView):
+    template_name = 'kakeibo/kakeibo_confirm.html'
+    model = Kakeibo
+    success_url = reverse_lazy('kakeibo:delete_done')
+
+
+class CategoryListView(generic.ListView):
+    template_name = 'kakeibo/category_list.html'
+    model = Category
+
+    def get_queryset(self):
+        return Category.objects.all()
+
+
+class CategoryCreateView(generic.CreateView):
+    template_name = 'kakeibo/category_form.html'
+    model = Category
+    form_class = CategoryForm
+    success_url = reverse_lazy('kakeibo:create_done')
+
+
+class CategoryUpdateView(generic.UpdateView):
+    template_name = 'kakeibo/category_form.html'
+    model = Category
+    form_class = CategoryForm
+    success_url = reverse_lazy('kakeibo:upate_done')
+
+
+class CategoryDeleteView(generic.DeleteView):
+    template_name = 'kakeibo/kakeibo_confirm.html'
+    model = Category
+    success_url = reverse_lazy('kakeibo:delete_done')
+
+
+def create_done(request):
+    template_name = 'kakeibo/create_done.html'
+    return render(request, template_name)
+
+
 def update_done(request):
     template_name = 'kakeibo/update_done.html'
     return render(request, template_name)
 
 
-class KakeiboDeleteView(generic.DeleteView):
-    template_name = 'kakeibo/delete_confirm.html'
-    model = Kakeibo
-    success_url = reverse_lazy('kakeibo:delete_done')
-
-
 def delete_done(request):
     template_name = 'kakeibo/delete_done.html'
     return render(request, template_name)
-
-
-class CategoryCreateView(generic.CreateView):
-    template_name = 'kakeibo/kakeibo_form.html'
-    model = Kakeibo
-    form_class = KakeiboForm
-    success_url = reverse_lazy('kakeibo:create_done')
 
 
 def show_circle_chart(request):

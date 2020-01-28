@@ -1,0 +1,27 @@
+{% extends 'kakeibo/layout.html' %}
+{% block content %}
+<!-- table -->
+<table id="id_div_ajax_response" class="ui unstackable very basic table">
+    <thead>
+    <tr>
+        <th></th>
+        <th>カテゴリ名</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="js-table-row">
+        {% for item in object_list %}
+        <tr>
+            <td></td>
+            <td class="js-category-name">{{ item.category_name }}</td>
+            <td class="js-management-button right aligned">
+                <a href="{% url 'kakeibo:category_update' item.pk %}"><div class="ui button">編集</div></a>
+                <a href="{% url 'kakeibo:category_delete' item.pk %}">
+                    <button class="ui red button delete-expense-1278">削除</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

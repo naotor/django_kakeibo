@@ -31,16 +31,21 @@
 
 		<!-- menu -->
 		<div class="ui stackable small menu" style="margin: 14px 0 50px;">
-			<div class="ui dropdown item">収支管理<i class="dropdown icon"></i>
+			<div class="ui dropdown item">支出管理<i class="dropdown icon"></i>
 			  <div class="menu">
-				<a class="item" href="{% url 'kakeibo:kakeibo_list' %}">収支管理 </a>
-				<a class="item" href="/records_management/">収支履歴 </a>
+				<a class="item" href="{% url 'kakeibo:kakeibo_list' %}">支出一覧 </a>
+				<a class="item" href="{% url 'kakeibo:kakeibo_create' %}">支出登録 </a>
 			  </div>
 			</div>
-			<a class="item" href="{% url 'kakeibo:kakeibo_create' %}">支出登録 </a>
+			<div class="ui dropdown item">カテゴリ管理<i class="dropdown icon"></i>
+				<div class="menu">
+				  <a class="item" href="{% url 'kakeibo:category_list' %}">カテゴリ一覧 </a>
+				  <a class="item" href="{% url 'kakeibo:category_create' %}">カテゴリ登録 </a>
+				</div>
+			  </div>
 			<a class="item" href="{% url 'kakeibo:circle_chart' %}">分析(全体) </a>
 			<a class="item" href="{% url 'kakeibo:linear_chart' %}">分析(月ごと) </a>
-			<a class="item" href="{% url 'kakeibo:category_create' %}">カテゴリ登録 </a>
+
 			<div class="right menu">
 			  <div class="item">
 				<a href="/logout/">

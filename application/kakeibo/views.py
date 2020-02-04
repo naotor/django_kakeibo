@@ -1,9 +1,10 @@
 import calendar
+import functools
 
 from django.views import generic
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.db.models import Sum
+from django.db.models import Sum, Q
 
 from .models import Category, Kakeibo
 from .forms import CategoryForm, KakeiboForm
@@ -13,8 +14,30 @@ class KakeiboListView(generic.ListView):
     template_name = 'kakeibo/kakeibo_list.html'
     model = Kakeibo
 
+    def get(self, request, *args, **kwargs):
+        self._search_field = []
+        search_field = request.GET.get('search')
+        if search_field:
+            self._search_field.extend(search_field.split())
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self._search_field:
+            context['search'] = self._search_field
+        return context
+
     def get_queryset(self):
-        return Kakeibo.objects.order_by('-date')
+        query = []
+        if self._search_field:
+            for keyword in self._search_field:
+                query.append(
+                    Q(memo__icontains=keyword)
+                    | Q(category__category_name=keyword)
+                )
+        return Kakeibo.objects.filter(
+                *query
+               ).order_by('-date')
 
 
 class KakeiboCreateView(generic.CreateView):
@@ -56,7 +79,7 @@ class CategoryUpdateView(generic.UpdateView):
     template_name = 'kakeibo/category_form.html'
     model = Category
     form_class = CategoryForm
-    success_url = reverse_lazy('kakeibo:upate_done')
+    success_url = reverse_lazy('kakeibo:update_done')
 
 
 class CategoryDeleteView(generic.DeleteView):
